@@ -22,6 +22,7 @@ realclean: clean
 
 install: all
 	$(RM) -r $(DEST)
-	$(INSTALL) -C -m 755 -d $(DEST)
+	$(INSTALL) -C -m 755 -d $(DEST) $(DEST)/resources
 	$(INSTALL) -C -m 644 $(SRC) $(EXAMPLES) $(DEST)
-	$(INSTALL) -C -m 644 html/* $(DEST)
+	$(INSTALL) -C -m 644 html/resources/* $(DEST)/resources
+	$(INSTALL) -C -m 644 html/*[.-]* $(DEST)
