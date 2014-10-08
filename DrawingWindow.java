@@ -1,6 +1,3 @@
-/**
- */
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -24,13 +21,13 @@ import java.lang.reflect.*;
  *
  * <p>Télécharger le code: <a href="DrawingWindow.java">DrawingWindow.java</a>
  *
- * <p>Télécharger les exemples d'utilisation:
+ * <p>Télécharger des exemples d'utilisation:
  * <a href="Hello.java">Hello.java</a>
  * <a href="Exemple1.java">Exemple1.java</a>
  * <a href="Exemple2.java">Exemple2.java</a>
  * <a href="Exemple3.java">Exemple3.java</a>
  *
- * @author Arnaud Giersch <arnaud.giersch@univ-fcomte.fr>
+ * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
  * @version 20141008
  */
 public class DrawingWindow
