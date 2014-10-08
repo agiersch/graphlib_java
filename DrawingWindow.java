@@ -239,7 +239,7 @@ public class DrawingWindow {
         synchronized (image) {
             graphics.drawRect(x, y, w, h);
         }
-        panel.repaint(x, y, w, h);
+        panel.repaint(x, y, w + 1, h + 1);
     }
 
     /** Dessine un rectangle plein.
@@ -254,8 +254,8 @@ public class DrawingWindow {
     public void fillRect(int x1, int y1, int x2, int y2) {
         int x = Math.min(x1, x2);
         int y = Math.min(y1, y2);
-        int w = Math.abs(x1 - x2);
-        int h = Math.abs(y1 - y2);
+        int w = Math.abs(x1 - x2) + 1;
+        int h = Math.abs(y1 - y2) + 1;
         synchronized (image) {
             graphics.fillRect(x, y, w, h);
         }
@@ -275,7 +275,7 @@ public class DrawingWindow {
         synchronized (image) {
             graphics.drawOval(x - r, y - r, 2 * r, 2 * r);
         }
-        panel.repaint(x - r, y - r, 2 * r, 2 * r);
+        panel.repaint(x - r, y - r, 2 * r + 1, 2 * r + 1);
     }
 
     /**
@@ -289,9 +289,10 @@ public class DrawingWindow {
      */
     public void fillCircle(int x, int y, int r) {
         synchronized (image) {
+            graphics.drawOval(x - r, y - r, 2 * r, 2 * r);
             graphics.fillOval(x - r, y - r, 2 * r, 2 * r);
         }
-        panel.repaint(x - r, y - r, 2 * r, 2 * r);
+        panel.repaint(x - r, y - r, 2 * r + 1, 2 * r + 1);
     }
 
     /**
