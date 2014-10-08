@@ -30,12 +30,7 @@ import java.lang.reflect.*;
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
  * @version 20141008
  */
-public class DrawingWindow
-    extends JPanel
-    implements KeyListener {
-
-    /** Titre de la fenêtre */
-    public final String title;
+public class DrawingWindow {
 
     /** Largeur de la fenêtre */
     public final int width;
@@ -54,42 +49,28 @@ public class DrawingWindow
      * @see javax.swing.JPanel
      */
     public DrawingWindow(String title, int width, int height) {
+
         this.title = new String(title);        
         this.width = width;
         this.height = height;
 
-        Dimension dimension = new Dimension(width, height);
-        super.setMinimumSize(dimension);
-        super.setMaximumSize(dimension);
-        super.setPreferredSize(dimension);
-
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         graphics = image.createGraphics();
+
+        try {
+            javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
+                    public void run() { createGUI(); }
+                });
+        }
+        catch (Exception e) {
+            System.err.println("Error: interrupted while creating GUI");
+            System.err.println("Got exception: " + e);
+            System.exit(1);
+        }
 
         setColor(Color.BLACK);
         setBgColor(Color.WHITE);
         clearGraph();
-
-        try {
-            javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
-                    public void run() {
-                        frame = new JFrame(DrawingWindow.this.title);
-
-                        frame.add(DrawingWindow.this);
-                        frame.pack();
-                        frame.setResizable(false);
-
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        frame.addKeyListener(DrawingWindow.this);
-
-                        frame.setLocationByPlatform(true);
-                        frame.setVisible(true);
-                    }
-                });
-        }
-        catch (Exception e) {
-            System.err.println("Warning: caught spurious exception: " + e);
-        }
         sync();
     }
 
@@ -208,7 +189,7 @@ public class DrawingWindow
             graphics.fillRect(0, 0, width, height);
             graphics.setColor(c);
         }
-        repaint();
+        panel.repaint();
     }
 
     /** Dessine un point.
@@ -222,7 +203,7 @@ public class DrawingWindow
         synchronized (image) {
             image.setRGB(x, y, graphics.getColor().getRGB());
         }
-        repaint(x, y, 1, 1);
+        panel.repaint(x, y, 1, 1);
     }
 
     /**
@@ -237,8 +218,8 @@ public class DrawingWindow
         synchronized (image) {
             graphics.drawLine(x1, y1, x2, y2);
         }
-        repaint(Math.min(x1, x2), Math.min(y1, y2),
-                Math.abs(x1 - x2) + 1, Math.abs(y1 - y2) + 1);
+        panel.repaint(Math.min(x1, x2), Math.min(y1, y2),
+                      Math.abs(x1 - x2) + 1, Math.abs(y1 - y2) + 1);
     }
 
     /** Dessine un rectangle.
@@ -258,7 +239,7 @@ public class DrawingWindow
         synchronized (image) {
             graphics.drawRect(x, y, w, h);
         }
-        repaint(x, y, w, h);
+        panel.repaint(x, y, w, h);
     }
 
     /** Dessine un rectangle plein.
@@ -278,7 +259,7 @@ public class DrawingWindow
         synchronized (image) {
             graphics.fillRect(x, y, w, h);
         }
-        repaint(x, y, w, h);
+        panel.repaint(x, y, w, h);
     }
 
     /**
@@ -294,7 +275,7 @@ public class DrawingWindow
         synchronized (image) {
             graphics.drawOval(x - r, y - r, 2 * r, 2 * r);
         }
-        repaint(x - r, y - r, 2 * r, 2 * r);
+        panel.repaint(x - r, y - r, 2 * r, 2 * r);
     }
 
     /**
@@ -310,7 +291,7 @@ public class DrawingWindow
         synchronized (image) {
             graphics.fillOval(x - r, y - r, 2 * r, 2 * r);
         }
-        repaint(x - r, y - r, 2 * r, 2 * r);
+        panel.repaint(x - r, y - r, 2 * r, 2 * r);
     }
 
     /**
@@ -322,7 +303,7 @@ public class DrawingWindow
         synchronized (image) {
             graphics.drawString(text, x, y);
         }
-        repaint(); // don't know how to calculate tighter bounding box
+        panel.repaint(); // don't know how to calculate tighter bounding box
     }
 
     /**
@@ -411,28 +392,57 @@ public class DrawingWindow
         }
     }
 
-    public void paint(Graphics g) {
-        synchronized (image) {
-            g.drawImage(image, 0, 0, null);
-        }
+    /* PRIVATE STUFF FOLLOWS */
+
+    private final String title; // window's title
+    private JFrame frame;       // the frame (window)
+    private DWPanel panel;      // the panel showing the image
+    private BufferedImage image; // the image we draw into
+    private Graphics2D graphics; // graphics associated with image
+    private Color bgColor;       // background color, for clearGraph()
+
+    // To be run on the Event Dispatching Thread
+    void createGUI() {
+        panel = new DWPanel(this);
+
+        frame = new JFrame(title);
+        frame.add(panel);
+        frame.pack();
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addKeyListener(panel);
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            closeGraph();
+    private class DWPanel extends JPanel implements KeyListener {
+
+        private static final long serialVersionUID = 0;
+
+        final DrawingWindow w;
+
+        DWPanel(DrawingWindow w) {
+            this.w = w;
+            Dimension dimension = new Dimension(w.width, w.height);
+            super.setMinimumSize(dimension);
+            super.setMaximumSize(dimension);
+            super.setPreferredSize(dimension);
         }
+
+        public void paint(Graphics g) {
+            synchronized (w.image) {
+                g.drawImage(w.image, 0, 0, null);
+            }
+        }
+
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                w.closeGraph();
+            }
+        }
+
+        public void keyReleased(KeyEvent e) { }
+        public void keyTyped(KeyEvent e) { }
+
     }
-
-    public void keyReleased(KeyEvent e) { }
-    public void keyTyped(KeyEvent e) { }
-
-    /* PRIVATE STUFF FOLLOW */
-
-    private static final long serialVersionUID = 0;
-
-    private JFrame frame;
-    private BufferedImage image;
-    private Graphics2D graphics;
-    private Color bgColor;
-
 }
