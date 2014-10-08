@@ -7,8 +7,10 @@ EXAMPLES = Hello.java Exemple1.java Exemple2.java Exemple3.java
 
 EXAMPLES_CLASS = $(EXAMPLES:%.java=%.class)
 
-all:
+all: html/index.html
 	$(MAKE) -f ../Makefile.generic $(EXAMPLES_CLASS)
+
+html/index.html: $(SRC)
 	$(RM) -r html
 	javadoc -author -version -notree -nodeprecated -nohelp \
 		-encoding utf-8 -docencoding utf-8 -charset utf-8 \
@@ -21,8 +23,7 @@ clean:
 
 realclean: clean
 
-install: all
-	$(RM) -r $(DEST)
+install: html/index.html
 	$(INSTALL) -C -m 755 -d $(DEST) $(DEST)/resources
 	$(INSTALL) -C -m 644 $(SRC) $(EXAMPLES) $(DEST)
 	$(INSTALL) -C -m 644 html/resources/* $(DEST)/resources
