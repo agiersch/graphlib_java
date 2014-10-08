@@ -11,6 +11,7 @@ all:
 	$(MAKE) -f ../Makefile.generic $(EXAMPLES_CLASS)
 	$(RM) -r html
 	javadoc -author -version -notree -nodeprecated -nohelp \
+		-encoding utf-8 -docencoding utf-8 -charset utf-8 \
 		-d html/ $(SRC)
 
 clean:
