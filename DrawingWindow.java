@@ -50,7 +50,7 @@ public class DrawingWindow {
      */
     public DrawingWindow(String title, int width, int height) {
 
-        this.title = new String(title);        
+        this.title = new String(title);
         this.width = width;
         this.height = height;
 

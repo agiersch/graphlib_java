@@ -5,5 +5,4 @@ public class Hello {
 
         w.drawText(w.width / 2, w.height / 2, "Hello world!");
     }
-
 }
