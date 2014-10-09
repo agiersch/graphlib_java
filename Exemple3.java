@@ -5,10 +5,12 @@ public class Exemple3 {
     static final Random random = new Random();
 
     public static void main(String[] args) {
+        // Création de la fenêtre
         DrawingWindow w = new DrawingWindow("Exemple 3", 640, 480);
 
-        for (int i = 0; ; i++) {
-
+        // Sans s'arrêter, affiche des lignes au hasard avec une
+        // couleur tirée aléatoirement
+        while (true) {
             int x1 = random.nextInt(w.width);
             int y1 = random.nextInt(w.height);
             int x2 = random.nextInt(w.width);

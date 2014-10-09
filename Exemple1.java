@@ -1,8 +1,11 @@
 public class Exemple1 {
 
     public static void main(String[] args) {
+        // Création de la fenêtre
         DrawingWindow w = new DrawingWindow("Exemple 1", 640, 480);
 
+        // Affichage d'un ensemble de lignes, du centre de la fenêtre
+        // vers les bords
         final int cx = w.width / 2;
         final int cy = w.height / 2;
         final int delta = 5;
