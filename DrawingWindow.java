@@ -28,7 +28,7 @@ import java.lang.reflect.*;
  * <a href="Exemple3.java">Exemple3.java</a>
  *
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
- * @version Thu, 09 Oct 2014 15:27:09 +0200
+ * @version Thu Oct 9 16:03:46 2014 +0200
  */
 public class DrawingWindow {
 
@@ -489,31 +489,5 @@ public class DrawingWindow {
         public void keyReleased(KeyEvent e) { }
         public void keyTyped(KeyEvent e) { }
 
-    }
-
-    // Sample tests
-    public static void main(String[] args) {
-        DrawingWindow w = new DrawingWindow("Test!", 400, 400);
-
-        w.setColor("green");
-        for (int i = 0; i < 12; i++) {
-            int p = 10 * i + 10;
-            w.drawLine(p, 0, p, 175);
-            w.drawLine(p + i, 0, p + i, 175);
-        }
-
-        w.setColor("black");
-        for (int i = 0; i < 12; i++) {
-            int p = 10 * i + 10;
-
-            w.drawCircle(p, 25, i);
-            w.fillCircle(p, 50, i);
-
-            w.drawRect(p, 75, p + i, 75 + i);
-            w.fillRect(p, 100, p + i, 100 + i);
-
-            w.drawTriangle(p, 125, p + i, 125 + i/2, p, 125 + i);
-            w.fillTriangle(p, 150, p + i, 150 + i/2, p, 150 + i);
-        }
     }
 }

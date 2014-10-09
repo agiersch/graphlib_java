@@ -10,15 +10,18 @@ EXAMPLES_CLASS = $(EXAMPLES:%.java=%.class)
 
 all: html/index.html
 	$(MAKE) -f ../Makefile.generic $(SRC_CLASS) $(EXAMPLES_CLASS)
+	$(MAKE) -f ../Makefile.generic Test.class
 
 html/index.html: $(SRC)
 	$(RM) -r html
-	javadoc -author -version -notree -nodeprecated -nohelp \
-		-encoding utf-8 -docencoding utf-8 -charset utf-8 \
+	javadoc -locale fr_FR -encoding utf-8 -docencoding utf-8 -charset utf-8 \
+		-quiet -notree -nodeprecated -nohelp \
+		-author -version -public \
 		-d html/ $(SRC)
 
 clean:
 	$(RM) DrawingWindow*.class
+	$(RM) Test.class
 	$(RM) $(EXAMPLES_CLASS)
 	$(RM) -r html/
 
