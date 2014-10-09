@@ -28,8 +28,7 @@ import java.lang.reflect.*;
  * <a href="Exemple3.java">Exemple3.java</a>
  *
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
- * @version Wed, 08 Oct 2014 21:29:23 +0200
-
+ * @version Thu, 09 Oct 2014 15:27:09 +0200
  */
 public class DrawingWindow {
 
