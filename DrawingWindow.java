@@ -447,4 +447,26 @@ public class DrawingWindow {
         public void keyTyped(KeyEvent e) { }
 
     }
+
+    // Sample tests
+    public static void main(String[] args) {
+        DrawingWindow w = new DrawingWindow("Test!", 800, 600);
+
+        w.setColor("green");
+        for (int i = 0; i < 12 + 1; i++) {
+            int p = 10 * i + 10;
+            w.drawLine(p, 0, p, 125);
+        }
+
+        w.setColor("black");
+        for (int i = 0; i < 12; i++) {
+            int p = 10 * i + 10;
+
+            w.drawCircle(p, 25, i);
+            w.fillCircle(p, 50, i);
+
+            w.drawRect(p, 75, p + i, 75 + i);
+            w.fillRect(p, 100, p + i, 100 + i);
+        }
+    }
 }
