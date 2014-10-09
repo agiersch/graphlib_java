@@ -297,6 +297,50 @@ public class DrawingWindow {
     }
 
     /**
+     * Dessine un triangle.
+     *
+     * Dessine un triangle défini par les coordonnées de ses sommets:
+     * (x1, y1), (x2, y2) et (x3, y3).  Utilise la couleur de dessin
+     * courante.
+     *
+     * @see #fillTriangle
+     * @see #setColor
+     */
+
+    public void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
+        Polygon poly = new Polygon();
+        poly.addPoint(x1, y1);
+        poly.addPoint(x2, y2);
+        poly.addPoint(x3, y3);
+        synchronized (image) {
+            graphics.drawPolygon(poly);
+        }
+        panel.repaint(poly.getBounds());
+    }
+
+    /**
+     * Dessine un triangle plein.
+     *
+     * Dessine un triangle plein défini par les coordonnées de ses
+     * sommets: (x1, y1), (x2, y2) et (x3, y3).  Utilise la couleur de
+     * dessin courante.
+     *
+     * @see #drawTriangle
+     * @see #setColor
+     */
+    public void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
+        Polygon poly = new Polygon();
+        poly.addPoint(x1, y1);
+        poly.addPoint(x2, y2);
+        poly.addPoint(x3, y3);
+        synchronized (image) {
+            graphics.drawPolygon(poly);
+            graphics.fillPolygon(poly);
+        }
+        panel.repaint(poly.getBounds());
+    }
+
+    /**
      * Écrit du texte.
      *
      * Écrit le texte text, aux coordonnées (x, y).
@@ -450,12 +494,13 @@ public class DrawingWindow {
 
     // Sample tests
     public static void main(String[] args) {
-        DrawingWindow w = new DrawingWindow("Test!", 800, 600);
+        DrawingWindow w = new DrawingWindow("Test!", 400, 400);
 
         w.setColor("green");
-        for (int i = 0; i < 12 + 1; i++) {
+        for (int i = 0; i < 12; i++) {
             int p = 10 * i + 10;
-            w.drawLine(p, 0, p, 125);
+            w.drawLine(p, 0, p, 175);
+            w.drawLine(p + i, 0, p + i, 175);
         }
 
         w.setColor("black");
@@ -467,6 +512,9 @@ public class DrawingWindow {
 
             w.drawRect(p, 75, p + i, 75 + i);
             w.fillRect(p, 100, p + i, 100 + i);
+
+            w.drawTriangle(p, 125, p + i, 125 + i/2, p, 125 + i);
+            w.fillTriangle(p, 150, p + i, 150 + i/2, p, 150 + i);
         }
     }
 }
