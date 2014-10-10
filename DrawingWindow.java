@@ -91,7 +91,9 @@ public class DrawingWindow {
     /**
      * Change la couleur de dessin.
      *
-     * Le nom de couleur est de la forme "black", "white", "red", "blue", ...
+     * Le nom de couleur peut être "black", "blue", "cyan",
+     * "darkGray", "gray", "green", "lightGray", "magenta", "orange",
+     * "pink", "red", "white", ou "yellow".
      *
      * @param name          nom de couleur
      *
