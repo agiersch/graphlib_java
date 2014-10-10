@@ -4,7 +4,7 @@ public class Exemple2 {
 
     public static void main(String[] args) {
         // Création de la fenêtre
-        DrawingWindow w = new DrawingWindow("Exemple 3", 640, 480);
+        DrawingWindow w = new DrawingWindow("Exemple 2", 640, 480);
 
         int width = Math.min(w.width - 1, w.height - 1) / 2;
 
