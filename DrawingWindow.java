@@ -28,7 +28,7 @@ import java.lang.reflect.*;
  * <a href="Exemple3.java">Exemple3.java</a>
  *
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
- * @version Thu Oct 9 16:03:46 2014 +0200
+ * @version Mon Oct 13 15:20:17 2014 +0200
  */
 public class DrawingWindow {
 
@@ -80,6 +80,7 @@ public class DrawingWindow {
      * @param color         couleur
      *
      * @see java.awt.Color
+     * @see #setColor(int)
      * @see #setColor(String)
      * @see #setColor(float, float, float)
      * @see #setBgColor(Color)
@@ -91,13 +92,30 @@ public class DrawingWindow {
     /**
      * Change la couleur de dessin.
      *
+     * La couleur est un entier, tel que retourné par {@link #getPointColor}.
+     * Normalement de la forme #00RRGGBB.
+     *
+     * @param rgb       couleur
+     *
+     * @see #setColor(String)
+     * @see #setColor(float, float, float)
+     * @see #setBgColor(int)
+     * @see #getPointColor
+     */
+    public void setColor(int rgb) {
+        setColor(new Color(rgb));
+    }
+
+    /**
+     * Change la couleur de dessin.
+     *
      * Le nom de couleur peut être "black", "blue", "cyan",
      * "darkGray", "gray", "green", "lightGray", "magenta", "orange",
      * "pink", "red", "white", ou "yellow".
      *
      * @param name          nom de couleur
      *
-     * @see #setColor(Color)
+     * @see #setColor(int)
      * @see #setColor(float, float, float)
      * @see #setBgColor(String)
      */
@@ -121,7 +139,7 @@ public class DrawingWindow {
      * @param green         composante de vert
      * @param blue          composante de bleu
      *
-     * @see #setColor(Color)
+     * @see #setColor(int)
      * @see #setColor(String)
      * @see #setBgColor(float, float, float)
      */
@@ -134,6 +152,7 @@ public class DrawingWindow {
      *
      * @param color         couleur
      *
+     * @see #setBgColor(int)
      * @see #setBgColor(String)
      * @see #setBgColor(float, float, float)
      * @see #setColor(Color)
@@ -143,12 +162,26 @@ public class DrawingWindow {
         bgColor = color;
     }
 
+    /** Change la couleur de fond.
+     *
+     * @param rgb       couleur
+     *
+     * @see #setBgColor(String)
+     * @see #setBgColor(float, float, float)
+     * @see #setColor(int)
+     * @see #getPointColor
+     * @see #clearGraph()
+     */
+    public void setBgColor(int rgb) {
+        bgColor = new Color(rgb);
+    }
+
     /**
      * Change la couleur de fond.
      *
      * @param name          nom de couleur
      *
-     * @see #setBgColor(Color)
+     * @see #setBgColor(int)
      * @see #setBgColor(float, float, float)
      * @see #setColor(String)
      * @see #clearGraph()
@@ -168,7 +201,7 @@ public class DrawingWindow {
      * @param green         composante de vert
      * @param blue          composante de bleu
      *
-     * @see #setBgColor(Color)
+     * @see #setBgColor(int)
      * @see #setBgColor(String)
      * @see #setColor(float, float, float)
      * @see #clearGraph()
@@ -359,6 +392,9 @@ public class DrawingWindow {
      * Retourne la couleur du pixel de coordonnées (x, y).
      *
      * @return              couleur du pixel
+     *
+     * @see #setColor(int)
+     * @see #setBgColor(int)
      */
     public int getPointColor(int x, int y) {
         return image.getRGB(x, y);
