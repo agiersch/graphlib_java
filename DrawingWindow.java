@@ -415,8 +415,7 @@ public class DrawingWindow {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     WindowEvent ev =
-                        new WindowEvent(frame,
-                                        WindowEvent.WINDOW_CLOSING);
+                        new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
                     Toolkit.getDefaultToolkit()
                         .getSystemEventQueue().postEvent(ev);
                 }
@@ -633,38 +632,38 @@ public class DrawingWindow {
     // To be run on the Event Dispatching Thread
     void createGUI() {
         DrawingWindow.instances++;
-        panel = new DWPanel(this);
+        panel = new DWPanel();
         frame = new JFrame(title);
         frame.add(panel);
         frame.pack();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.addKeyListener(new KeyAdapter(){
-                public void keyPressed(KeyEvent e) {
-                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                        closeGraph();
-                    }
-                }
-            });
-        frame.addWindowListener(new WindowAdapter(){
-                public void windowClosed(WindowEvent e) {
-                    // System.err.println("CLOSED: " + DrawingWindow.instances);
-                    if (--DrawingWindow.instances == 0)
-                        System.exit(0);
-                }
-            });
+        frame.addWindowListener(new DWWindowHandler());
+        frame.addKeyListener(new DWKeyHandler());
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
 
+    private class DWWindowHandler extends WindowAdapter {
+        public void windowClosed(WindowEvent ev) {
+            // System.err.println("CLOSED: " + DrawingWindow.instances);
+            if (--DrawingWindow.instances == 0)
+                System.exit(0);
+        }
+    }
+
+    private class DWKeyHandler extends KeyAdapter {
+        public void keyPressed(KeyEvent ev) {
+            DrawingWindow w = DrawingWindow.this;
+            if (ev.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                w.closeGraph();
+            }
+        }
+    }
+
     private class DWPanel extends JPanel {
-
-        private static final long serialVersionUID = 0;
-
-        final DrawingWindow w;
-
-        DWPanel(DrawingWindow w) {
-            this.w = w;
+        DWPanel() {
+            DrawingWindow w = DrawingWindow.this;
             Dimension dimension = new Dimension(w.width, w.height);
             super.setMinimumSize(dimension);
             super.setMaximumSize(dimension);
@@ -672,9 +671,12 @@ public class DrawingWindow {
         }
 
         public void paint(Graphics g) {
+            DrawingWindow w = DrawingWindow.this;
             synchronized (w.image) {
                 g.drawImage(w.image, 0, 0, null);
             }
         }
+
+        private static final long serialVersionUID = 0;
     }
 }
