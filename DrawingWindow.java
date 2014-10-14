@@ -410,7 +410,7 @@ public class DrawingWindow {
     /**
      * Attend l'appui sur un des boutons de la souris.
      *
-     * @return #true si un bouton a été pressé
+     * @return vrai (true) si un bouton a été pressé
      *
      * @see #waitMousePress(long)
      * @see #getMouseX()
@@ -426,7 +426,7 @@ public class DrawingWindow {
      *
      * @param timeout   temps maximal d'attente (millisecondes)
      *
-     * @return #true si un bouton a été pressé
+     * @return vrai (true) si un bouton a été pressé
      *
      * @see #waitMousePress()
      * @see #getMouseX()
