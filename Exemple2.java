@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Exemple2 {
+class Exemple2 {
 
     public static void main(String[] args) {
         // Création de la fenêtre

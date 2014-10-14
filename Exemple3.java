@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Exemple3 {
+class Exemple3 {
 
     static final Random random = new Random();
 

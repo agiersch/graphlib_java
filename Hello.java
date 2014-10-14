@@ -1,4 +1,4 @@
-public class Hello {
+class Hello {
 
     public static void main(String[] args) {
         // Création d'une fenêtre avec, en paramètres, son titre, sa

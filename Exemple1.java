@@ -1,4 +1,4 @@
-public class Exemple1 {
+class Exemple1 {
 
     public static void main(String[] args) {
         // Création de la fenêtre
