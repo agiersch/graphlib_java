@@ -621,6 +621,8 @@ public class DrawingWindow {
         colorMap = Collections.unmodifiableMap(m);
     }
 
+    private static int instances = 0;
+
     private final String title; // window's title
     private JFrame frame;       // the frame (window)
     private DWPanel panel;      // the panel showing the image
@@ -630,6 +632,7 @@ public class DrawingWindow {
 
     // To be run on the Event Dispatching Thread
     void createGUI() {
+        DrawingWindow.instances++;
         panel = new DWPanel(this);
         frame = new JFrame(title);
         frame.add(panel);
@@ -641,6 +644,13 @@ public class DrawingWindow {
                     if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                         closeGraph();
                     }
+                }
+            });
+        frame.addWindowListener(new WindowAdapter(){
+                public void windowClosed(WindowEvent e) {
+                    // System.err.println("CLOSED: " + DrawingWindow.instances);
+                    if (--DrawingWindow.instances == 0)
+                        System.exit(0);
                 }
             });
         frame.setLocationByPlatform(true);
