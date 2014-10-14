@@ -631,18 +631,23 @@ public class DrawingWindow {
     // To be run on the Event Dispatching Thread
     void createGUI() {
         panel = new DWPanel(this);
-
         frame = new JFrame(title);
         frame.add(panel);
         frame.pack();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.addKeyListener(panel);
+        frame.addKeyListener(new KeyAdapter(){
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        closeGraph();
+                    }
+                }
+            });
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
 
-    private class DWPanel extends JPanel implements KeyListener {
+    private class DWPanel extends JPanel {
 
         private static final long serialVersionUID = 0;
 
@@ -661,15 +666,5 @@ public class DrawingWindow {
                 g.drawImage(w.image, 0, 0, null);
             }
         }
-
-        public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                w.closeGraph();
-            }
-        }
-
-        public void keyReleased(KeyEvent e) { }
-        public void keyTyped(KeyEvent e) { }
-
     }
 }
