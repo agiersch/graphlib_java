@@ -639,10 +639,10 @@ public class DrawingWindow {
     private BufferedImage image; // the image we draw into
     private Graphics2D graphics; // graphics associated with image
     private Color bgColor;       // background color, for clearGraph()
+    private boolean isClosed;    // is the window closed ?
 
     // To be run on the Event Dispatching Thread
     void createGUI() {
-        DrawingWindow.instances++;
         panel = new DWPanel();
         frame = new JFrame(title);
         frame.add(panel);
@@ -656,10 +656,23 @@ public class DrawingWindow {
     }
 
     private class DWWindowHandler extends WindowAdapter {
+        public void windowOpened(WindowEvent ev) {
+            DrawingWindow w = DrawingWindow.this;
+            DrawingWindow.instances++;
+            w.isClosed = false;
+        }
+
         public void windowClosed(WindowEvent ev) {
-            // System.err.println("CLOSED: " + DrawingWindow.instances);
-            if (--DrawingWindow.instances == 0)
-                System.exit(0);
+            DrawingWindow w = DrawingWindow.this;
+            if (!w.isClosed) {
+                w.isClosed = true;
+                if (DrawingWindow.instances <= 0)
+                    throw new AssertionError("Bad instance counter: " +
+                                             DrawingWindow.instances);
+                DrawingWindow.instances--;
+                if (DrawingWindow.instances == 0)
+                    System.exit(0);
+            }
         }
     }
 
