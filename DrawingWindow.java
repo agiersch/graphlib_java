@@ -5,10 +5,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -56,6 +59,11 @@ public class DrawingWindow {
         this.title = new String(title);
         this.width = width;
         this.height = height;
+
+        mouseLock = new Object();
+        mouseEvent = null;
+        mousePos = new Point(0, 0);
+        mouseButton = 0;
 
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         graphics = image.createGraphics();
@@ -400,6 +408,86 @@ public class DrawingWindow {
     }
 
     /**
+     * Attend l'appui sur un des boutons de la souris.
+     *
+     * @return #true si un bouton a été pressé
+     *
+     * @see #waitMousePress(long)
+     * @see #getMouseX()
+     * @see #getMouseY()
+     * @see #getMouseButton()
+     */
+    public boolean waitMousePress() {
+        return waitMousePress(-1);
+    }
+
+    /**
+     * Attend l'appui sur un des boutons de la souris.
+     *
+     * @param timeout   temps maximal d'attente (millisecondes)
+     *
+     * @return #true si un bouton a été pressé
+     *
+     * @see #waitMousePress()
+     * @see #getMouseX()
+     * @see #getMouseY()
+     * @see #getMouseButton()
+     */
+    public boolean waitMousePress(long timeout) {
+        boolean result = false;
+        synchronized (mouseLock) {
+            if (timeout != 0) {
+                mouseEvent = null;
+                try {
+                    if (timeout > 0)
+                        mouseLock.wait(timeout);
+                    else // (timeout < 0)
+                        mouseLock.wait();
+                }
+                catch (InterruptedException e) {
+                }
+            }
+            if (mouseEvent != null) {
+                mousePos.setLocation(mouseEvent.getPoint());
+                mouseButton = mouseEvent.getButton();
+                mouseEvent = null;
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Retourne la position (x) de la souris la dernière fois qu'un
+     * bouton a été pressé pendant l'appel à {@link #waitMousePress()}.
+     *
+     * @return position (x)
+     */
+    public int getMouseX() {
+        return mousePos.x;
+    }
+
+    /**
+     * Retourne la position (y) de la souris la dernière fois qu'un
+     * bouton a été pressé pendant l'appel à {@link #waitMousePress()}.
+     *
+     * @return position (y)
+     */
+    public int getMouseY() {
+        return mousePos.y;
+    }
+
+    /**
+     * Retourne le numéro du bouton de la souris pressé pendant
+     * le dernier appel à {@link #waitMousePress()}.
+     *
+     * @return numéro de bouton (1: gauche, 2: milieu, 3: droit)
+     */
+    public int getMouseButton() {
+        return mouseButton;
+    }
+
+    /**
      * Synchronise le contenu de la fenêtre.
      *
      * Pour des raisons d'efficacités, le résultat des fonctions de dessin
@@ -640,6 +728,10 @@ public class DrawingWindow {
     private Graphics2D graphics; // graphics associated with image
     private Color bgColor;       // background color, for clearGraph()
     private boolean isClosed;    // is the window closed ?
+    private Object mouseLock;       // lock for mouse events
+    private MouseEvent mouseEvent;  // last mouse event
+    private Point mousePos;         // last mouse position
+    private int mouseButton;        // last mouse click
 
     // To be run on the Event Dispatching Thread
     void createGUI() {
@@ -651,6 +743,7 @@ public class DrawingWindow {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.addWindowListener(new DWWindowHandler());
         frame.addKeyListener(new DWKeyHandler());
+        frame.addMouseListener(new DWMouseHandler());
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
@@ -681,6 +774,16 @@ public class DrawingWindow {
             DrawingWindow w = DrawingWindow.this;
             if (ev.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 w.closeGraph();
+            }
+        }
+    }
+
+    private class DWMouseHandler extends MouseAdapter {
+        public void mousePressed(MouseEvent ev) {
+            DrawingWindow w = DrawingWindow.this;
+            synchronized (w.mouseLock) {
+                w.mouseEvent = ev;
+                mouseLock.notifyAll();
             }
         }
     }

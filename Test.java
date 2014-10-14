@@ -44,5 +44,11 @@ class Test{
             }
         }
         w2.closeGraph();
+
+        while (w1.waitMousePress(5 * 1000))
+            System.out.println("[ " + w1.getMouseX() + " ; " + w1.getMouseY() +
+                               " ] -- button " + w1.getMouseButton());
+
+        System.out.println("Done!");
     }
 }
