@@ -636,7 +636,7 @@ public class DrawingWindow {
         frame.add(panel);
         frame.pack();
         frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.addKeyListener(panel);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);

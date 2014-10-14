@@ -1,4 +1,3 @@
-* Add set(Bg)Color with int
 * Add waitMousePress
 * Check if drawText can be improved (alignment)
 * Add drawTextBg?
