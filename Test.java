@@ -2,7 +2,7 @@ class Test{
     public static void main(String[] args) {
         DrawingWindow w = new DrawingWindow("Test!", 400, 400);
 
-        w.setColor("green");
+        w.setColor("lawngreen");
         for (int i = 0; i < 12; i++) {
             int p = 10 * i + 10;
             w.drawLine(p, 0, p, 175);

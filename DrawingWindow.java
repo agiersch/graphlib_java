@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
-import java.lang.reflect.*;
+import java.util.*;
 
 /**
  * Fenêtre de dessin
@@ -19,16 +19,8 @@ import java.lang.reflect.*;
  * fenêtre.  Comme pour la plupart des applications, il est également
  * possible de fermer la fenêtre via le gestionnaire de fenêtres.
  *
- * <p>Télécharger le code: <a href="DrawingWindow.java">DrawingWindow.java</a>
- *
- * <p>Télécharger des exemples d'utilisation:
- * <a href="Hello.java">Hello.java</a>
- * <a href="Exemple1.java">Exemple1.java</a>
- * <a href="Exemple2.java">Exemple2.java</a>
- * <a href="Exemple3.java">Exemple3.java</a>
- *
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
- * @version Mon Oct 13 15:20:17 2014 +0200
+ * @version 20141014
  */
 public class DrawingWindow {
 
@@ -109,23 +101,19 @@ public class DrawingWindow {
     /**
      * Change la couleur de dessin.
      *
-     * Le nom de couleur peut être "black", "blue", "cyan",
-     * "darkGray", "gray", "green", "lightGray", "magenta", "orange",
-     * "pink", "red", "white", ou "yellow".
-     *
      * @param name          nom de couleur
      *
      * @see #setColor(int)
      * @see #setColor(float, float, float)
      * @see #setBgColor(String)
+     * @see <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">liste des noms de couleurs</a>
      */
     public void setColor(String name) {
-        try {
-            Field field = Class.forName("java.awt.Color").getField(name);
-            graphics.setColor((Color)field.get(null));
-        } catch (Exception e) {
+        Color color = colorMap.get(name);
+        if (color != null)
+            setColor(color);
+        else
             System.err.println("Warning: color not found: " + name);
-        }
     }
 
     /**
@@ -173,7 +161,7 @@ public class DrawingWindow {
      * @see #clearGraph()
      */
     public void setBgColor(int rgb) {
-        bgColor = new Color(rgb);
+        setBgColor(new Color(rgb));
     }
 
     /**
@@ -185,14 +173,14 @@ public class DrawingWindow {
      * @see #setBgColor(float, float, float)
      * @see #setColor(String)
      * @see #clearGraph()
+     * @see <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">liste des noms de couleurs</a>
      */
     public void setBgColor(String name) {
-        try {
-            Field field = Class.forName("java.awt.Color").getField(name);
-            bgColor = (Color)field.get(null);
-        } catch (Exception e) {
+        Color color = colorMap.get(name);
+        if (color != null)
+            setBgColor(color);
+        else
             System.err.println("Warning: color not found: " + name);
-        }
     }
 
     /** Change la couleur de fond.
@@ -207,7 +195,7 @@ public class DrawingWindow {
      * @see #clearGraph()
      */
     public void setBgColor(float red, float green, float blue) {
-        bgColor = new Color(red, green, blue);
+        setBgColor(new Color(red, green, blue));
     }
 
     /**
@@ -476,6 +464,162 @@ public class DrawingWindow {
     }
 
     /* PRIVATE STUFF FOLLOWS */
+
+    private static final Map<String, Color> colorMap;
+
+    static {
+        Map<String, Color> m = new HashMap<String, Color>();
+        // From http://www.w3.org/TR/SVG/types.html#ColorKeywords
+        m.put("aliceblue",              new Color(0x00f0f8ff));
+        m.put("antiquewhite",           new Color(0x00faebd7));
+        m.put("aqua",                   new Color(0x0000ffff));
+        m.put("aquamarine",             new Color(0x007fffd4));
+        m.put("azure",                  new Color(0x00f0ffff));
+        m.put("beige",                  new Color(0x00f5f5dc));
+        m.put("bisque",                 new Color(0x00ffe4c4));
+        m.put("black",                  new Color(0000000000));
+        m.put("blanchedalmond",         new Color(0x00ffebcd));
+        m.put("blue",                   new Color(0x000000ff));
+        m.put("blueviolet",             new Color(0x008a2be2));
+        m.put("brown",                  new Color(0x00a52a2a));
+        m.put("burlywood",              new Color(0x00deb887));
+        m.put("cadetblue",              new Color(0x005f9ea0));
+        m.put("chartreuse",             new Color(0x007fff00));
+        m.put("chocolate",              new Color(0x00d2691e));
+        m.put("coral",                  new Color(0x00ff7f50));
+        m.put("cornflowerblue",         new Color(0x006495ed));
+        m.put("cornsilk",               new Color(0x00fff8dc));
+        m.put("crimson",                new Color(0x00dc143c));
+        m.put("cyan",                   new Color(0x0000ffff));
+        m.put("darkblue",               new Color(0x0000008b));
+        m.put("darkcyan",               new Color(0x00008b8b));
+        m.put("darkgoldenrod",          new Color(0x00b8860b));
+        m.put("darkgray",               new Color(0x00a9a9a9));
+        m.put("darkgreen",              new Color(0x00006400));
+        m.put("darkgrey",               new Color(0x00a9a9a9));
+        m.put("darkkhaki",              new Color(0x00bdb76b));
+        m.put("darkmagenta",            new Color(0x008b008b));
+        m.put("darkolivegreen",         new Color(0x00556b2f));
+        m.put("darkorange",             new Color(0x00ff8c00));
+        m.put("darkorchid",             new Color(0x009932cc));
+        m.put("darkred",                new Color(0x008b0000));
+        m.put("darksalmon",             new Color(0x00e9967a));
+        m.put("darkseagreen",           new Color(0x008fbc8f));
+        m.put("darkslateblue",          new Color(0x00483d8b));
+        m.put("darkslategray",          new Color(0x002f4f4f));
+        m.put("darkslategrey",          new Color(0x002f4f4f));
+        m.put("darkturquoise",          new Color(0x0000ced1));
+        m.put("darkviolet",             new Color(0x009400d3));
+        m.put("deeppink",               new Color(0x00ff1493));
+        m.put("deepskyblue",            new Color(0x0000bfff));
+        m.put("dimgray",                new Color(0x00696969));
+        m.put("dimgrey",                new Color(0x00696969));
+        m.put("dodgerblue",             new Color(0x001e90ff));
+        m.put("firebrick",              new Color(0x00b22222));
+        m.put("floralwhite",            new Color(0x00fffaf0));
+        m.put("forestgreen",            new Color(0x00228b22));
+        m.put("fuchsia",                new Color(0x00ff00ff));
+        m.put("gainsboro",              new Color(0x00dcdcdc));
+        m.put("ghostwhite",             new Color(0x00f8f8ff));
+        m.put("gold",                   new Color(0x00ffd700));
+        m.put("goldenrod",              new Color(0x00daa520));
+        m.put("gray",                   new Color(0x00808080));
+        m.put("grey",                   new Color(0x00808080));
+        m.put("green",                  new Color(0x00008000));
+        m.put("greenyellow",            new Color(0x00adff2f));
+        m.put("honeydew",               new Color(0x00f0fff0));
+        m.put("hotpink",                new Color(0x00ff69b4));
+        m.put("indianred",              new Color(0x00cd5c5c));
+        m.put("indigo",                 new Color(0x004b0082));
+        m.put("ivory",                  new Color(0x00fffff0));
+        m.put("khaki",                  new Color(0x00f0e68c));
+        m.put("lavender",               new Color(0x00e6e6fa));
+        m.put("lavenderblush",          new Color(0x00fff0f5));
+        m.put("lawngreen",              new Color(0x007cfc00));
+        m.put("lemonchiffon",           new Color(0x00fffacd));
+        m.put("lightblue",              new Color(0x00add8e6));
+        m.put("lightcoral",             new Color(0x00f08080));
+        m.put("lightcyan",              new Color(0x00e0ffff));
+        m.put("lightgoldenrodyellow",   new Color(0x00fafad2));
+        m.put("lightgray",              new Color(0x00d3d3d3));
+        m.put("lightgreen",             new Color(0x0090ee90));
+        m.put("lightgrey",              new Color(0x00d3d3d3));
+        m.put("",                       new Color(0000000000));
+        m.put("lightpink",              new Color(0x00ffb6c1));
+        m.put("lightsalmon",            new Color(0x00ffa07a));
+        m.put("lightseagreen",          new Color(0x0020b2aa));
+        m.put("lightskyblue",           new Color(0x0087cefa));
+        m.put("lightslategray",         new Color(0x00778899));
+        m.put("lightslategrey",         new Color(0x00778899));
+        m.put("lightsteelblue",         new Color(0x00b0c4de));
+        m.put("lightyellow",            new Color(0x00ffffe0));
+        m.put("lime",                   new Color(0x0000ff00));
+        m.put("limegreen",              new Color(0x0032cd32));
+        m.put("linen",                  new Color(0x00faf0e6));
+        m.put("magenta",                new Color(0x00ff00ff));
+        m.put("maroon",                 new Color(0x00800000));
+        m.put("mediumaquamarine",       new Color(0x0066cdaa));
+        m.put("mediumblue",             new Color(0x000000cd));
+        m.put("mediumorchid",           new Color(0x00ba55d3));
+        m.put("mediumpurple",           new Color(0x009370db));
+        m.put("mediumseagreen",         new Color(0x003cb371));
+        m.put("mediumslateblue",        new Color(0x007b68ee));
+        m.put("mediumspringgreen",      new Color(0x0000fa9a));
+        m.put("mediumturquoise",        new Color(0x0048d1cc));
+        m.put("mediumvioletred",        new Color(0x00c71585));
+        m.put("midnightblue",           new Color(0x00191970));
+        m.put("mintcream",              new Color(0x00f5fffa));
+        m.put("mistyrose",              new Color(0x00ffe4e1));
+        m.put("moccasin",               new Color(0x00ffe4b5));
+        m.put("navajowhite",            new Color(0x00ffdead));
+        m.put("navy",                   new Color(0x00000080));
+        m.put("oldlace",                new Color(0x00fdf5e6));
+        m.put("olive",                  new Color(0x00808000));
+        m.put("olivedrab",              new Color(0x006b8e23));
+        m.put("orange",                 new Color(0x00ffa500));
+        m.put("orangered",              new Color(0x00ff4500));
+        m.put("orchid",                 new Color(0x00da70d6));
+        m.put("palegoldenrod",          new Color(0x00eee8aa));
+        m.put("palegreen",              new Color(0x0098fb98));
+        m.put("paleturquoise",          new Color(0x00afeeee));
+        m.put("palevioletred",          new Color(0x00db7093));
+        m.put("papayawhip",             new Color(0x00ffefd5));
+        m.put("peachpuff",              new Color(0x00ffdab9));
+        m.put("peru",                   new Color(0x00cd853f));
+        m.put("pink",                   new Color(0x00ffc0cb));
+        m.put("plum",                   new Color(0x00dda0dd));
+        m.put("powderblue",             new Color(0x00b0e0e6));
+        m.put("purple",                 new Color(0x00800080));
+        m.put("red",                    new Color(0x00ff0000));
+        m.put("rosybrown",              new Color(0x00bc8f8f));
+        m.put("royalblue",              new Color(0x004169e1));
+        m.put("saddlebrown",            new Color(0x008b4513));
+        m.put("salmon",                 new Color(0x00fa8072));
+        m.put("sandybrown",             new Color(0x00f4a460));
+        m.put("seagreen",               new Color(0x002e8b57));
+        m.put("seashell",               new Color(0x00fff5ee));
+        m.put("sienna",                 new Color(0x00a0522d));
+        m.put("silver",                 new Color(0x00c0c0c0));
+        m.put("skyblue",                new Color(0x0087ceeb));
+        m.put("slateblue",              new Color(0x006a5acd));
+        m.put("slategray",              new Color(0x00708090));
+        m.put("slategrey",              new Color(0x00708090));
+        m.put("snow",                   new Color(0x00fffafa));
+        m.put("springgreen",            new Color(0x0000ff7f));
+        m.put("steelblue",              new Color(0x004682b4));
+        m.put("tan",                    new Color(0x00d2b48c));
+        m.put("teal",                   new Color(0x00008080));
+        m.put("thistle",                new Color(0x00d8bfd8));
+        m.put("tomato",                 new Color(0x00ff6347));
+        m.put("turquoise",              new Color(0x0040e0d0));
+        m.put("violet",                 new Color(0x00ee82ee));
+        m.put("wheat",                  new Color(0x00f5deb3));
+        m.put("white",                  new Color(0x00ffffff));
+        m.put("whitesmoke",             new Color(0x00f5f5f5));
+        m.put("yellow",                 new Color(0x00ffff00));
+        m.put("yellowgreen",            new Color(0x009acd32));
+        colorMap = Collections.unmodifiableMap(m);
+    }
 
     private final String title; // window's title
     private JFrame frame;       // the frame (window)

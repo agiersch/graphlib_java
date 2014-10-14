@@ -12,11 +12,12 @@ all: html/index.html
 	$(MAKE) -f ../Makefile.generic $(SRC_CLASS) $(EXAMPLES_CLASS)
 	$(MAKE) -f ../Makefile.generic Test.class
 
-html/index.html: $(SRC)
+html/index.html: $(SRC) overview.html
 	$(RM) -r html
 	javadoc -locale fr_FR -encoding utf-8 -docencoding utf-8 -charset utf-8 \
 		-quiet -notree -nodeprecated -nohelp \
 		-author -version -public \
+		-overview overview.html \
 		-d html/ $(SRC)
 
 clean:
