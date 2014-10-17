@@ -45,9 +45,16 @@ class Test{
         }
         w2.closeGraph();
 
-        while (w1.waitMousePress(5 * 1000))
-            System.out.println("[ " + w1.getMouseX() + " ; " + w1.getMouseY() +
-                               " ] -- button " + w1.getMouseButton());
+        System.out.println("Click anywhere on w1...");
+
+        while (w1.waitMousePress(5 * 1000)) {
+            int x = w1.getMouseX();
+            int y = w1.getMouseY();
+            System.out.println("[ " + x + " ; " + y + " ] - " +
+                               w1.getMouseButton());
+            w1.drawLine(x - 5, y, x + 5, y);
+            w1.drawLine(x, y - 5, x, y + 5);
+        }
 
         System.out.println("Done!");
     }

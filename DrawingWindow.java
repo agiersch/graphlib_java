@@ -34,7 +34,7 @@ import javax.swing.JPanel;
  * possible de fermer la fenêtre via le gestionnaire de fenêtres.
  *
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
- * @version 20141014
+ * @version 20141017
  */
 public class DrawingWindow {
 
@@ -743,7 +743,7 @@ public class DrawingWindow {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.addWindowListener(new DWWindowHandler());
         frame.addKeyListener(new DWKeyHandler());
-        frame.addMouseListener(new DWMouseHandler());
+        panel.addMouseListener(new DWMouseHandler());
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
