@@ -18,6 +18,8 @@ html/index.html: $(SRC) overview.html
 		-quiet -notree -nodeprecated -nohelp \
 		-author -version -public \
 		-overview overview.html \
+		-doctitle "Petite bibliothèque graphique" \
+		-windowtitle "Petite bibliothèque graphique" \
 		-d html/ $(SRC)
 
 clean:
