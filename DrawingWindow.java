@@ -34,7 +34,7 @@ import javax.swing.JPanel;
  * possible de fermer la fenêtre via le gestionnaire de fenêtres.
  *
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
- * @version 20141017
+ * @version 20141021
  */
 public class DrawingWindow {
 
@@ -163,7 +163,7 @@ public class DrawingWindow {
      * @see #setBgColor(String)
      * @see #setBgColor(float, float, float)
      * @see #setColor(Color)
-     * @see #clearGraph()
+     * @see #clearGraph
      */
     public void setBgColor(Color color) {
         bgColor = color;
@@ -177,7 +177,7 @@ public class DrawingWindow {
      * @see #setBgColor(float, float, float)
      * @see #setColor(int)
      * @see #getPointColor
-     * @see #clearGraph()
+     * @see #clearGraph
      */
     public void setBgColor(int rgb) {
         setBgColor(new Color(rgb));
@@ -191,7 +191,7 @@ public class DrawingWindow {
      * @see #setBgColor(int)
      * @see #setBgColor(float, float, float)
      * @see #setColor(String)
-     * @see #clearGraph()
+     * @see #clearGraph
      * @see <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">liste des noms de couleurs</a>
      */
     public void setBgColor(String name) {
@@ -211,7 +211,7 @@ public class DrawingWindow {
      * @see #setBgColor(int)
      * @see #setBgColor(String)
      * @see #setColor(float, float, float)
-     * @see #clearGraph()
+     * @see #clearGraph
      */
     public void setBgColor(float red, float green, float blue) {
         setBgColor(new Color(red, green, blue));
@@ -413,9 +413,9 @@ public class DrawingWindow {
      * @return vrai (true) si un bouton a été pressé
      *
      * @see #waitMousePress(long)
-     * @see #getMouseX()
-     * @see #getMouseY()
-     * @see #getMouseButton()
+     * @see #getMouseX
+     * @see #getMouseY
+     * @see #getMouseButton
      */
     public boolean waitMousePress() {
         return waitMousePress(-1);
@@ -429,9 +429,9 @@ public class DrawingWindow {
      * @return vrai (true) si un bouton a été pressé
      *
      * @see #waitMousePress()
-     * @see #getMouseX()
-     * @see #getMouseY()
-     * @see #getMouseButton()
+     * @see #getMouseX
+     * @see #getMouseY
+     * @see #getMouseButton
      */
     public boolean waitMousePress(long timeout) {
         boolean result = false;
@@ -526,8 +526,11 @@ public class DrawingWindow {
      * Suspend l'exécution pendant un certain temps.
      *
      * @param secs          temps d'attente en seconde
+     *
+     * @see #msleep
+     * @see #usleep
      */
-    static void sleep(long secs) {
+    public static void sleep(long secs) {
         try {
             Thread.sleep(secs * 1000);
         }
@@ -539,8 +542,11 @@ public class DrawingWindow {
      * Suspend l'exécution pendant un certain temps.
      *
      * @param msecs          temps d'attente en millisecondes
+     *
+     * @see #sleep
+     * @see #usleep
      */
-    static void msleep(long msecs) {
+    public static void msleep(long msecs) {
         try {
             Thread.sleep(msecs);
         }
@@ -552,8 +558,11 @@ public class DrawingWindow {
      * Suspend l'exécution pendant un certain temps.
      *
      * @param usecs          temps d'attente en microsecondes
+     *
+     * @see #sleep
+     * @see #msleep
      */
-    static void usleep(long usecs) {
+    public static void usleep(long usecs) {
         try {
             Thread.sleep(usecs / 1000, (int)(usecs % 1000) * 1000);
         }
