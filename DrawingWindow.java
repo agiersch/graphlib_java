@@ -34,7 +34,7 @@ import javax.swing.JPanel;
  * possible de fermer la fenêtre via le gestionnaire de fenêtres.
  *
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
- * @version 20141021a
+ * @version 20141021b
  */
 public class DrawingWindow {
 
@@ -406,7 +406,8 @@ public class DrawingWindow {
      * @see #setBgColor(int)
      */
     public int getPointColor(int x, int y) {
-        return image.getRGB(x, y);
+        return (x < 0 || y < 0 || x >= width || y >= height) ?
+            0 : image.getRGB(x, y) & 0x00ffffff;
     }
 
     /**
