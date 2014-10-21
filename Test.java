@@ -1,6 +1,7 @@
 class Test{
     public static void main(String[] args) {
         DrawingWindow w1 = new DrawingWindow("Test!", 400, 400);
+
         w1.setColor("lawngreen");
         for (int i = 0; i < 12; i++) {
             int p = 10 * i + 10;
@@ -21,6 +22,16 @@ class Test{
             w1.drawTriangle(p, 125, p + i, 125 + i/2, p, 125 + i);
             w1.fillTriangle(p, 150, p + i, 150 + i/2, p, 150 + i);
         }
+
+        // Try out of bounds drawings
+        w1.setColor("blue");
+        w1.drawLine(-10, w1.height - 10, w1.width + 10, w1.height - 10);
+        w1.drawLine(w1.width - 10, -10, w1.width - 10, w1.height + 10);
+        w1.setColor("red");
+        for (int x = -10; x <= w1.width + 10; x++)
+            w1.drawPoint(x, w1.height - 20);
+        for (int y = -10; y <= w1.height + 10; y++)
+            w1.drawPoint(w1.width - 20, y);
 
         DrawingWindow w2 = new DrawingWindow("Test!", 800, 600);
         w2.setBgColor("red");
@@ -47,6 +58,7 @@ class Test{
 
         System.out.println("Click anywhere on w1...");
 
+        w1.setColor("black");
         while (w1.waitMousePress(5 * 1000)) {
             int x = w1.getMouseX();
             int y = w1.getMouseY();
