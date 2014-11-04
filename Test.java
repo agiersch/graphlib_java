@@ -1,26 +1,54 @@
 class Test{
     public static void main(String[] args) {
         DrawingWindow w1 = new DrawingWindow("Test!", 400, 300);
+        final int dy = 25;
 
         w1.setColor("lawngreen");
         for (int i = 0; i < 12; i++) {
             int p = 10 * i + 10;
-            w1.drawLine(p, 0, p, 175);
-            w1.drawLine(p + i, 0, p + i, 175);
+            w1.drawLine(p, 0, p, w1.height - 1);
+            w1.drawLine(p + i, 0, p + i, w1.height - 1);
         }
 
         w1.setColor("black");
         for (int i = 0; i < 12; i++) {
             int p = 10 * i + 10;
+            int y = 0;
 
-            w1.drawCircle(p, 25, i);
-            w1.fillCircle(p, 50, i);
+            y += dy;
+            w1.drawText(150, y + 5, "circles");
+            w1.drawCircle(p, y, i);
+            y += dy;
+            w1.drawText(150, y + 5, "filled circles");
+            w1.fillCircle(p, y, i);
 
-            w1.drawRect(p, 75, p + i, 75 + i);
-            w1.fillRect(p, 100, p + i, 100 + i);
+            y += dy;
+            w1.drawText(150, y + 10, "rectangles with lines");
+            w1.drawLine(p, y, p, y + i);
+            w1.drawLine(p, y + i, p + i, y + i);
+            w1.drawLine(p + i, y + i, p + i, y);
+            w1.drawLine(p + i, y, p, y);
 
-            w1.drawTriangle(p, 125, p + i, 125 + i/2, p, 125 + i);
-            w1.fillTriangle(p, 150, p + i, 150 + i/2, p, 150 + i);
+            y += dy;
+            w1.drawText(150, y + 10, "rectangles");
+            w1.drawRect(p, y, p + i, y + i);
+            y += dy;
+            w1.drawText(150, y + 10, "filled rectangles");
+            w1.fillRect(p, y, p + i, y + i);
+
+            y += dy;
+            w1.drawText(150, y + 10, "triangles with lines");
+            w1.drawLine(p, y, p + i, y + i/2);
+            w1.drawLine(p + i, y + i/2, p, y + i);
+            w1.drawLine(p, y + i, p, y);
+
+            y += dy;
+            w1.drawText(150, y + 10, "triangles");
+            w1.drawTriangle(p, y, p + i, y + i/2, p, y + i);
+            y += dy;
+            w1.drawText(150, y + 10, "filled triangles");
+            w1.fillTriangle(p, y, p + i, y + i/2, p, y + i);
+
         }
 
         // Try out of bounds drawings
