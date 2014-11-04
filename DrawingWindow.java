@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -34,7 +35,7 @@ import javax.swing.JPanel;
  * possible de fermer la fenêtre via le gestionnaire de fenêtres.
  *
  * @author Arnaud Giersch &lt;arnaud.giersch@univ-fcomte.fr&gt;
- * @version 20141021b
+ * @version 20141104
  */
 public class DrawingWindow {
 
@@ -358,7 +359,9 @@ public class DrawingWindow {
         synchronized (image) {
             graphics.drawPolygon(poly);
         }
-        panel.repaint(poly.getBounds());
+        Rectangle bounds = poly.getBounds();
+        bounds.setSize(bounds.width + 1, bounds.height + 1);
+        panel.repaint(bounds);
     }
 
     /**
@@ -380,6 +383,8 @@ public class DrawingWindow {
             graphics.drawPolygon(poly);
             graphics.fillPolygon(poly);
         }
+        Rectangle bounds = poly.getBounds();
+        bounds.setSize(bounds.width + 1, bounds.height + 1);
         panel.repaint(poly.getBounds());
     }
 
