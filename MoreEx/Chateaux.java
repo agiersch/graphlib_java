@@ -142,17 +142,17 @@ class Chateaux {
         for (i = 0; i <= maxray / 3; i++) {
             w.setColor(0.5f + 3.0f * i / (2.0f * maxray), 0.0f, 0.0f);
             w.drawCircle(x, y, i);
-            w.msleep(20);
+            DrawingWindow.msleep(20);
         }
         for (/* i */; i < maxray; i++) {
             w.setColor(1.0f, 1.5f * i / maxray - 0.5f, 0.0f);
             w.drawCircle(x, y, i);
-            w.msleep(20);
+            DrawingWindow.msleep(20);
         }
         w.setColor("skyblue");
         for (i = 0; i < maxray; i++) {
             w.drawCircle(x, y, i);
-            w.msleep(10);
+            DrawingWindow.msleep(10);
         }
         //    w.fillCircle(x, y, maxray - 1);
     }
@@ -175,7 +175,7 @@ class Chateaux {
                 y += vy * dt;
                 vy -= 9.81 * dt;
             }
-            w.msleep(30);
+            DrawingWindow.msleep(30);
         }
     }
 
@@ -227,7 +227,7 @@ class Chateaux {
             vx += ax * dt;
             vy += ay * dt;
 
-            w.msleep(10);
+            DrawingWindow.msleep(10);
 //             w.sync();
             w.setColor("skyblue");
             w.fillCircle(wx, wy, 2);
@@ -325,7 +325,7 @@ class Chateaux {
                 score1++;
             System.out.println("### SCORE : " + score1 + " / " + score2 + " ###");
             if (nbJoueurs == 0)
-                w.sleep(2);
+                DrawingWindow.sleep(2);
             else {
                 char r;
                 do {
