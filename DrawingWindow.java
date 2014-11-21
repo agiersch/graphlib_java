@@ -659,7 +659,6 @@ public class DrawingWindow {
         m.put("lightgray",              new Color(0x00d3d3d3));
         m.put("lightgreen",             new Color(0x0090ee90));
         m.put("lightgrey",              new Color(0x00d3d3d3));
-        m.put("",                       new Color(0000000000));
         m.put("lightpink",              new Color(0x00ffb6c1));
         m.put("lightsalmon",            new Color(0x00ffa07a));
         m.put("lightseagreen",          new Color(0x0020b2aa));
