@@ -91,7 +91,7 @@ class JeuDeLaVie {
     }
 
     public static void main(String[] args) {
-        DrawingWindow w = new DrawingWindow("Jeau de la vie", LARGEUR, HAUTEUR);
+        DrawingWindow w = new DrawingWindow("Jeu de la vie", LARGEUR, HAUTEUR);
         w.setBgColor(MORT);
         w.clearGraph();
         init(w);
