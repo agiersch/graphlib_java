@@ -1,5 +1,3 @@
-include ../subdefs.mk
-
 DEST = $(HOME)/public_html/enseignement/Permanent/AlgoProg/tp/graph
 
 SRC = DrawingWindow.java
@@ -9,8 +7,8 @@ SRC_CLASS = $(SRC:%.java=%.class)
 EXAMPLES_CLASS = $(EXAMPLES:%.java=%.class)
 
 all: html/index.html
-	$(MAKE) -f ../Makefile.generic $(SRC_CLASS) $(EXAMPLES_CLASS)
-	$(MAKE) -f ../Makefile.generic Test.class
+	$(MAKE) -f Makefile.generic $(SRC_CLASS) $(EXAMPLES_CLASS)
+	$(MAKE) -f Makefile.generic Test.class
 
 html/index.html: $(SRC) overview.html
 	$(RM) -r html

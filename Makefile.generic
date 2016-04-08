@@ -1,0 +1,20 @@
+JAVAC = javac
+
+JAVACFLAGS = -Xlint
+
+SRC.java = $(wildcard *.java)
+
+TARGETS = $(SRC.java:%.java=%.class)
+
+%.class: %.java
+	$(JAVAC) $(JAVACFLAGS) $<
+
+.PHONY: all clean realclean
+
+all: $(TARGETS)
+
+clean:
+	$(RM) $(TARGETS)
+
+realclean: clean
+	$(RM) *~ \#*\#

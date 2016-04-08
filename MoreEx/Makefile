@@ -5,7 +5,7 @@ CLASS = $(SRC:%.java=%.class)
 .PHONY: all clean
 
 all: DrawingWindow.java
-	$(MAKE) -f ../../Makefile.generic $(CLASS)
+	$(MAKE) -f ../Makefile.generic $(CLASS)
 
 clean:
 	$(RM) *~
