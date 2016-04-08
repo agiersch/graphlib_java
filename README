@@ -1,0 +1,10 @@
+Little graphics library (Java version).
+Copyright (c) 2014-2016, Arnaud Giersch.
+
+This is a little library based on the Java/Swing framework to write simple
+programs with graphics in Java.
+
+It is not designed to write "real" programs, but rather to write toy
+programs in beginners programming courses.
+
+See the examples and documentation (in French) for details.

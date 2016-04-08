@@ -1,0 +1,5 @@
+To use this library, just copy the file DrawingWindow.java in your project, and
+build your program.  See the examples to find how to use it.
+
+To generate the documentation, simply run
+        make html/index.html

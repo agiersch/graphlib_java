@@ -1,0 +1,15 @@
+-- mar. 4 nov. 2014
+        * Correction de la boîte englobante pour {draw,fill}Triangle().
+
+-- mar. 21 oct. 2014
+        * Les méthodes *sleep() sont `public'.
+        * Vérification des coordonnées dans drawPoint().
+        * Correction de getPointColor().
+
+-- ven. 17 oct. 2014
+        * Correction d'un décalage avec getMouse{X,Y}.
+-- lun. 14 oct. 2014
+        * Ajout des méthodes setColor(int) et setBgColor(int).
+        * Liste de noms de couleurs plus complète.
+        * Ne termine l'application que lorsque la dernière fenêtre est fermée.
+        * Ajout des méthodes waitMousePress() et getMouse{X,Y,Button}().
